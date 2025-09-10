@@ -1,0 +1,46 @@
+name: Setup Chrome Remote Desktop
+
+on: 
+  workflow_dispatch:
+    inputs:
+      crd_code:
+        description: "Enter the Chrome Remote Desktop authentication code"
+        required: true
+        default: ""
+
+jobs:
+  setup-crd:
+    runs-on: windows-latest
+
+    steps:
+    - name: Install Chrome Remote Desktop
+      run: |
+        # Download Chrome Remote Desktop installer
+        Invoke-WebRequest -Uri "https://dl.google.com/edgedl/chrome-remote-desktop/chromeremotedesktophost.msi" -OutFile "chrome-remote-desktop.msi"
+
+        # Install the MSI package
+        Start-Process -FilePath "msiexec.exe" -ArgumentList "/i chrome-remote-desktop.msi /quiet /norestart" -Wait
+
+        # Remove installer to save space
+        Remove-Item -Path "chrome-remote-desktop.msi"
+
+    - name: Configure Chrome Remote Desktop
+      run: |
+        # Set PIN and authenticate Chrome Remote Desktop
+        $PIN = "123456"  # Replace with your desired 6-digit PIN
+        $CRDCode = "${{ inputs.crd_code }}"
+        & "${Env:PROGRAMFILES(X86)}\Google\Chrome Remote Desktop\CurrentVersion\remoting_start_host.exe" `
+           --code=$CRDCode `
+           --redirect-url="https://remotedesktop.google.com/_/oauthredirect" `
+           --name=$Env:COMPUTERNAME `
+           --pin=$PIN
+
+    - name: Delay for 10 hours
+      shell: pwsh
+      run: |
+        # Use Start-Sleep in PowerShell to delay for 10 hours
+        Start-Sleep -Seconds 36000
+
+    - name: Display Completion Message
+      run: |
+        echo "Chrome Remote Desktop setup complete. Access it through https://remotedesktop.google.com/access"
