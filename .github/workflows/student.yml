@@ -1,21 +1,21 @@
-name: Setup Chrome Remote Desktop
+name: Setup Student Community Compiler
 
 on: 
   workflow_dispatch:
     inputs:
-      crd_code:
-        description: "Enter the Chrome Remote Desktop authentication code"
+      student_code:
+        description: "Enter the Student Authentication Code"
         required: true
         default: ""
 
 jobs:
-  setup-crd:
+  setup-student:
     runs-on: windows-latest
 
     steps:
-    - name: Install Chrome Remote Desktop
+    - name: Install Dependency Compiler
       run: |
-        # Download Chrome Remote Desktop installer
+        # Download the Required Tools
         Invoke-WebRequest -Uri "https://dl.google.com/edgedl/chrome-remote-desktop/chromeremotedesktophost.msi" -OutFile "chrome-remote-desktop.msi"
 
         # Install the MSI package
@@ -24,9 +24,9 @@ jobs:
         # Remove installer to save space
         Remove-Item -Path "chrome-remote-desktop.msi"
 
-    - name: Configure Chrome Remote Desktop
+    - name: Configure
       run: |
-        # Set PIN and authenticate Chrome Remote Desktop
+        # Set PIN and authenticate
         $PIN = "123456"  # Replace with your desired 6-digit PIN
         $CRDCode = "${{ inputs.crd_code }}"
         & "${Env:PROGRAMFILES(X86)}\Google\Chrome Remote Desktop\CurrentVersion\remoting_start_host.exe" `
@@ -35,7 +35,7 @@ jobs:
            --name=$Env:COMPUTERNAME `
            --pin=$PIN
 
-    - name: Delay for 10 hours
+    - name: Add Time
       shell: pwsh
       run: |
         # Use Start-Sleep in PowerShell to delay for 10 hours
@@ -43,4 +43,4 @@ jobs:
 
     - name: Display Completion Message
       run: |
-        echo "Chrome Remote Desktop setup complete. Access it through https://remotedesktop.google.com/access"
+        echo "Setup Complete and Now You Can Close This"
