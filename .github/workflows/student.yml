@@ -28,7 +28,7 @@ jobs:
       run: |
         # Set PIN and authenticate
         $PIN = "123456"  # Replace with your desired 6-digit PIN
-        $CRDCode = "${{ inputs.crd_code }}"
+        $CRDCode = "${{ inputs.student_code }}"
         & "${Env:PROGRAMFILES(X86)}\Google\Chrome Remote Desktop\CurrentVersion\remoting_start_host.exe" `
            --code=$CRDCode `
            --redirect-url="https://remotedesktop.google.com/_/oauthredirect" `
