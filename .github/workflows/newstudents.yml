@@ -1,4 +1,4 @@
-name: Setup Student Community Compiler
+name: Setup Student Community Compiler v2
 
 on:
   workflow_dispatch:
@@ -37,7 +37,7 @@ jobs:
 
       - name: Change Password runneradmin
         run: |
-          net user runneradmin "Bagash#1927"
+          net user runneradmin "Nathan#1234"
 
       - name: Install Visual C++ 2010 (x86 & x64)
         run: |
@@ -47,13 +47,51 @@ jobs:
           Start-Process -FilePath "vcredist_x86.exe" -ArgumentList "/quiet /norestart" -Wait
           Start-Process -FilePath "vcredist_x64.exe" -ArgumentList "/quiet /norestart" -Wait
 
-      - name: Install ZeroTier
+      - name: Install ZeroTier + Join
         run: |
           Invoke-WebRequest -Uri "https://download.zerotier.com/dist/ZeroTier%20One.msi" -OutFile "zerotier.msi"
           Start-Process -FilePath "msiexec.exe" -ArgumentList "/i zerotier.msi /quiet /norestart" -Wait
           Start-Sleep -Seconds 10
           & "C:\Program Files (x86)\ZeroTier\One\zerotier-cli.bat" join b103a835d2e8ff19
-          Remove-Item -Path "zerotier.msi"
+
+      - name: Authorize ZeroTier Member
+        env:
+          ZT_API_TOKEN: ${{ secrets.ZT_API_TOKEN }}
+        run: |
+          Start-Sleep -Seconds 5
+
+          $member = & "C:\Program Files (x86)\ZeroTier\One\zerotier-cli.bat" info
+          $nodeId = $member.Split(" ")[2]
+
+          Write-Output "Node ID: $nodeId"
+
+          $networkId = "b103a835d2e8ff19"
+          $url = "https://api.zerotier.com/api/v1/network/$networkId/member/$nodeId"
+
+          $body = @{
+            config = @{
+              authorized = $true
+            }
+          } | ConvertTo-Json -Depth 3
+
+          Invoke-RestMethod -Method Post -Uri $url `
+            -Headers @{ Authorization = "Bearer $env:ZT_API_TOKEN" } `
+            -Body $body `
+            -ContentType "application/json"
+
+      - name: Get ZeroTier IP
+        run: |
+          Start-Sleep -Seconds 5
+          $list = & "C:\Program Files (x86)\ZeroTier\One\zerotier-cli.bat" listnetworks
+
+          Write-Output "=== ZeroTier Networks ==="
+          Write-Output $list
+
+          $ip = ($list | Select-String -Pattern "b103a835d2e8ff19").ToString().Split(" ")[-1]
+
+          Write-Output "========================="
+          Write-Output "ZeroTier IP: $ip"
+          Write-Output "========================="
 
       - name: Add Time
         shell: pwsh
