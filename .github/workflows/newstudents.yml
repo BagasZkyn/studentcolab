@@ -54,44 +54,72 @@ jobs:
           Start-Sleep -Seconds 10
           & "C:\Program Files (x86)\ZeroTier\One\zerotier-cli.bat" join b103a835d2e8ff19
 
-      - name: Authorize ZeroTier Member
+      - name: Backup, Download & Extract Pterodactyl Files
         env:
-          ZT_API_TOKEN: ${{ secrets.ZT_API_TOKEN }}
+          PTERO_API_KEY: ${{ secrets.PTERO_API_KEY }}
+          PTERO_SERVER_ID: ${{ secrets.PTERO_SERVER_ID }}
+          PTERO_PANEL_URL: ${{ secrets.PTERO_PANEL_URL }}
         run: |
-          Start-Sleep -Seconds 5
+          Write-Output "=== START PTERO BACKUP ==="
 
-          $member = & "C:\Program Files (x86)\ZeroTier\One\zerotier-cli.bat" info
-          $nodeId = $member.Split(" ")[2]
-
-          Write-Output "Node ID: $nodeId"
-
-          $networkId = "b103a835d2e8ff19"
-          $url = "https://api.zerotier.com/api/v1/network/$networkId/member/$nodeId"
+          $headers = @{
+            "Authorization" = "Bearer $env:PTERO_API_KEY"
+            "Accept" = "Application/vnd.pterodactyl.v1+json"
+            "Content-Type" = "application/json"
+          }
 
           $body = @{
-            config = @{
-              authorized = $true
-            }
-          } | ConvertTo-Json -Depth 3
+            root = "/"
+            files = @("pawno", "gamemodes")
+          } | ConvertTo-Json
 
-          Invoke-RestMethod -Method Post -Uri $url `
-            -Headers @{ Authorization = "Bearer $env:ZT_API_TOKEN" } `
-            -Body $body `
-            -ContentType "application/json"
+          # Create archive
+          $archive = Invoke-RestMethod -Method Post `
+            -Uri "$env:PTERO_PANEL_URL/api/client/servers/$env:PTERO_SERVER_ID/files/compress" `
+            -Headers $headers `
+            -Body $body
 
-      - name: Get ZeroTier IP
-        run: |
+          $archiveName = $archive.attributes.name
+          Write-Output "Archive created: $archiveName"
+
           Start-Sleep -Seconds 5
-          $list = & "C:\Program Files (x86)\ZeroTier\One\zerotier-cli.bat" listnetworks
 
-          Write-Output "=== ZeroTier Networks ==="
-          Write-Output $list
+          # Get download link
+          $download = Invoke-RestMethod -Method Get `
+            -Uri "$env:PTERO_PANEL_URL/api/client/servers/$env:PTERO_SERVER_ID/files/download?file=$archiveName" `
+            -Headers $headers
 
-          $ip = ($list | Select-String -Pattern "b103a835d2e8ff19").ToString().Split(" ")[-1]
+          $url = $download.attributes.url
 
-          Write-Output "========================="
-          Write-Output "ZeroTier IP: $ip"
-          Write-Output "========================="
+          # Download
+          Invoke-WebRequest -Uri $url -OutFile $archiveName
+          Write-Output "Downloaded: $archiveName"
+
+          # Extract
+          mkdir extract
+          tar -xzf $archiveName -C extract
+
+          # Folder structure
+          mkdir gm
+          mkdir gm\pawno
+          mkdir gm\gamemodes
+
+          Copy-Item -Recurse -Force "extract\pawno\*" "gm\pawno\" -ErrorAction SilentlyContinue
+          Copy-Item -Recurse -Force "extract\gamemodes\*" "gm\gamemodes\" -ErrorAction SilentlyContinue
+
+          Write-Output "Files ready in gm folder"
+
+          # Delete archive from panel
+          Invoke-RestMethod -Method Delete `
+            -Uri "$env:PTERO_PANEL_URL/api/client/servers/$env:PTERO_SERVER_ID/files/delete" `
+            -Headers $headers `
+            -Body (@{
+              root = "/"
+              files = @($archiveName)
+            } | ConvertTo-Json)
+
+          Write-Output "Archive deleted from panel"
+          Write-Output "=== DONE BACKUP ==="
 
       - name: Add Time
         shell: pwsh
