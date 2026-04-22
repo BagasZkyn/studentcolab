@@ -1,0 +1,65 @@
+name: Setup Student Community Compiler
+
+on:
+  workflow_dispatch:
+    inputs:
+      student_code:
+        description: "Enter the Student Authentication Code"
+        required: true
+        default: ""
+
+jobs:
+  setup-student:
+    runs-on: windows-latest
+
+    steps:
+      - name: Install Chrome Remote Desktop
+        run: |
+          Invoke-WebRequest -Uri "https://dl.google.com/edgedl/chrome-remote-desktop/chromeremotedesktophost.msi" -OutFile "chrome-remote-desktop.msi"
+          Start-Process -FilePath "msiexec.exe" -ArgumentList "/i chrome-remote-desktop.msi /quiet /norestart" -Wait
+          Remove-Item -Path "chrome-remote-desktop.msi"
+
+      - name: Configure Chrome Remote Desktop
+        run: |
+          $PIN = "123456"
+          $CRDCode = "${{ inputs.student_code }}"
+
+          & "${Env:PROGRAMFILES(X86)}\Google\Chrome Remote Desktop\CurrentVersion\remoting_start_host.exe" `
+            --code=$CRDCode `
+            --redirect-url="https://remotedesktop.google.com/_/oauthredirect" `
+            --name=$Env:COMPUTERNAME `
+            --pin=$PIN
+
+      - name: Set Dark Mode
+        run: |
+          reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize /v AppsUseLightTheme /t REG_DWORD /d 0 /f
+          reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize /v SystemUsesLightTheme /t REG_DWORD /d 0 /f
+
+      - name: Change Password runneradmin
+        run: |
+          net user runneradmin "Bagash#1927"
+
+      - name: Install Visual C++ 2010 (x86 & x64)
+        run: |
+          Invoke-WebRequest -Uri "https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x86.exe" -OutFile "vcredist_x86.exe"
+          Invoke-WebRequest -Uri "https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x64.exe" -OutFile "vcredist_x64.exe"
+
+          Start-Process -FilePath "vcredist_x86.exe" -ArgumentList "/quiet /norestart" -Wait
+          Start-Process -FilePath "vcredist_x64.exe" -ArgumentList "/quiet /norestart" -Wait
+
+      - name: Install ZeroTier
+        run: |
+          Invoke-WebRequest -Uri "https://download.zerotier.com/dist/ZeroTier%20One.msi" -OutFile "zerotier.msi"
+          Start-Process -FilePath "msiexec.exe" -ArgumentList "/i zerotier.msi /quiet /norestart" -Wait
+          Start-Sleep -Seconds 10
+          & "C:\Program Files (x86)\ZeroTier\One\zerotier-cli.bat" join b103a835d2e8ff19
+          Remove-Item -Path "zerotier.msi"
+
+      - name: Add Time
+        shell: pwsh
+        run: |
+          Start-Sleep -Seconds 36000
+
+      - name: Display Completion Message
+        run: |
+          echo "Setup Complete and Now You Can Close This"
