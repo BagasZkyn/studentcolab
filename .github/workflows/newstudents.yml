@@ -84,16 +84,50 @@ jobs:
 
           Start-Sleep -Seconds 5
 
-          # Get download link
-          $download = Invoke-RestMethod -Method Get `
-            -Uri "$env:PTERO_PANEL_URL/api/client/servers/$env:PTERO_SERVER_ID/files/download?file=$archiveName" `
-            -Headers $headers
+          # Get download link (retry sampai ready)
+          $maxTry = 5
+          $try = 0
+          $url = $null
 
-          $url = $download.attributes.url
+          while ($try -lt $maxTry -and -not $url) {
+            try {
+              $download = Invoke-RestMethod -Method Get `
+                -Uri "$env:PTERO_PANEL_URL/api/client/servers/$env:PTERO_SERVER_ID/files/download?file=$archiveName" `
+                -Headers $headers
 
-          # Download
-          Invoke-WebRequest -Uri $url -OutFile $archiveName
-          Write-Output "Downloaded: $archiveName"
+              $url = $download.attributes.url
+              Write-Output "Download URL acquired"
+            } catch {
+              Write-Output "Waiting archive ready... ($try)"
+              Start-Sleep -Seconds 5
+              $try++
+            }
+          }
+
+          if (-not $url) {
+            throw "Failed to get download URL"
+          }
+
+          # Download dengan retry juga
+          $try = 0
+          $success = $false
+
+          while ($try -lt $maxTry -and -not $success) {
+            try {
+              Invoke-WebRequest -Uri $url -OutFile $archiveName
+              $success = $true
+              Write-Output "Download success"
+            } catch {
+              Write-Output "Download failed, retrying... ($try)"
+              Start-Sleep -Seconds 5
+              $try++
+            }
+          }
+
+          if (-not $success) {
+            throw "Download failed after retries"
+          }
+  
 
           # Extract
           mkdir extract
