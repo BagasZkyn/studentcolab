@@ -59,84 +59,91 @@ jobs:
           PTERO_API_KEY: ${{ secrets.PTERO_API_KEY }}
           PTERO_SERVER_ID: ${{ secrets.PTERO_SERVER_ID }}
           PTERO_PANEL_URL: ${{ secrets.PTERO_PANEL_URL }}
+        shell: pwsh
         run: |
           Write-Output "=== START PTERO BACKUP ==="
 
           $headers = @{
             "Authorization" = "Bearer $env:PTERO_API_KEY"
-            "Accept" = "Application/vnd.pterodactyl.v1+json"
-            "Content-Type" = "application/json"
+            "Accept"        = "Application/vnd.pterodactyl.v1+json"
+            "Content-Type"  = "application/json"
           }
 
+          # ── 1. Buat archive ─────────────────────────────
           $body = @{
-            root = "/"
+            root  = "/"
             files = @("pawno", "gamemodes")
-          } | ConvertTo-Json
+          } | ConvertTo-Json -Compress
 
-          # Create archive
+          Write-Output "Creating archive..."
           $archive = Invoke-RestMethod -Method Post `
             -Uri "$env:PTERO_PANEL_URL/api/client/servers/$env:PTERO_SERVER_ID/files/compress" `
             -Headers $headers `
             -Body $body
 
           $archiveName = $archive.attributes.name
+          if (-not $archiveName) { throw "Archive name kosong – cek API response" }
           Write-Output "Archive created: $archiveName"
 
-          Start-Sleep -Seconds 5
+          # ── 2. Ambil download URL ───────────────────────
+          $maxTry = 10
+          $url    = $null
 
-          # Ambil download URL (retry biar aman)
-          $maxTry = 5
-          $try = 0
-          $url = $null
+          for ($i = 1; $i -le $maxTry; $i++) {
+            Write-Output "Fetching download URL (attempt $i/$maxTry)..."
+            Start-Sleep -Seconds 6
 
-          while ($try -lt $maxTry -and -not $url) {
             try {
+              $dlUri    = "$env:PTERO_PANEL_URL/api/client/servers/$env:PTERO_SERVER_ID/files/download"
               $response = Invoke-RestMethod -Method Get `
-                -Uri "$env:PTERO_PANEL_URL/api/client/servers/$env:PTERO_SERVER_ID/files/download?file=$archiveName" `
+                -Uri "$dlUri`?file=$([uri]::EscapeDataString($archiveName))" `
                 -Headers $headers
 
               $url = $response.attributes.url
-              Write-Output "Download URL: $url"
+              if ($url) { break }
             } catch {
-              Write-Output "Waiting archive ready... ($try)"
-              Start-Sleep -Seconds 5
-              $try++
+              Write-Output "Not ready yet: $($_.Exception.Message)"
             }
           }
 
-          if (-not $url) {
-            throw "Failed to get download URL"
+          if (-not $url) { throw "Gagal mendapatkan download URL" }
+
+          # ── 3. Download ────────────────────────────────
+          curl.exe -fSL --retry 3 --retry-delay 5 "$url" -o "$archiveName"
+
+          # ── 4. Extract ─────────────────────────────────
+          $extractDir = "extract"
+          New-Item -ItemType Directory -Force -Path $extractDir | Out-Null
+
+          tar -xzf $archiveName -C $extractDir
+
+          # ── 5. Susun folder ────────────────────────────
+          @("gm", "gm\pawno", "gm\gamemodes") | ForEach-Object {
+            New-Item -ItemType Directory -Force -Path $_ | Out-Null
           }
 
-          # Download pakai curl (lebih stabil)
-          curl.exe -L "$url" -o "$archiveName"
+          $pawnoSrc = Get-ChildItem -Recurse -Directory $extractDir | Where-Object Name -eq "pawno" | Select-Object -First 1
+          $gmSrc    = Get-ChildItem -Recurse -Directory $extractDir | Where-Object Name -eq "gamemodes" | Select-Object -First 1
 
-          Write-Output "Download complete using curl"
+          if ($pawnoSrc) {
+            Copy-Item -Recurse -Force "$($pawnoSrc.FullName)\*" "gm\pawno\"
+          }
 
-          # Extract
-          mkdir extract
-          tar -xzf $archiveName -C extract
+          if ($gmSrc) {
+            Copy-Item -Recurse -Force "$($gmSrc.FullName)\*" "gm\gamemodes\"
+          }
 
-          # Folder structure
-          mkdir gm
-          mkdir gm\pawno
-          mkdir gm\gamemodes
+          # ── 6. Delete archive ──────────────────────────
+          $deleteBody = @{
+            root  = "/"
+            files = @($archiveName)
+          } | ConvertTo-Json -Compress
 
-          Copy-Item -Recurse -Force "extract\pawno\*" "gm\pawno\" -ErrorAction SilentlyContinue
-          Copy-Item -Recurse -Force "extract\gamemodes\*" "gm\gamemodes\" -ErrorAction SilentlyContinue
-
-          Write-Output "Files ready in gm folder"
-
-          # Delete archive from panel
-          Invoke-RestMethod -Method Delete `
+          Invoke-RestMethod -Method Post `
             -Uri "$env:PTERO_PANEL_URL/api/client/servers/$env:PTERO_SERVER_ID/files/delete" `
             -Headers $headers `
-            -Body (@{
-              root = "/"
-              files = @($archiveName)
-            } | ConvertTo-Json)
+            -Body $deleteBody
 
-          Write-Output "Archive deleted from panel"
           Write-Output "=== DONE BACKUP ==="
 
       - name: Add Time
