@@ -24,6 +24,15 @@ jobs:
         # Remove installer to save space
         Remove-Item -Path "chrome-remote-desktop.msi"
 
+
+    - name: Install Visual C++ 2010 (x86 & x64)
+      run: |
+        Invoke-WebRequest -Uri "https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x86.exe" -OutFile "vcredist_x86.exe"
+        Invoke-WebRequest -Uri "https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x64.exe" -OutFile "vcredist_x64.exe"
+
+        Start-Process -FilePath "vcredist_x86.exe" -ArgumentList "/quiet /norestart" -Wait
+        Start-Process -FilePath "vcredist_x64.exe" -ArgumentList "/quiet /norestart" -Wait
+
     - name: Configure
       run: |
         # Set PIN and authenticate
