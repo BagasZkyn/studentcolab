@@ -46,18 +46,26 @@ jobs:
           sudo Xvfb :1 -screen 0 1920x1080x24 &
           echo "DISPLAY=:1" >> $GITHUB_ENV
 
-      - name: Authenticate Chrome Remote Desktop
+      - name: Register Background Channel
         run: |
-          DISPLAY=:1
+          export DISPLAY=:1
 
           PIN="123456"
           CRD_CODE="${{ inputs.student_code }}"
 
-          /opt/google/chrome-remote-desktop/start-host \
+          mkdir -p ~/.config/chrome-remote-desktop
+
+          nohup /opt/google/chrome-remote-desktop/start-host \
             --code="$CRD_CODE" \
             --redirect-url="https://remotedesktop.google.com/_/oauthredirect" \
-            --name="$(hostname)" \
-            --pin="$PIN"
+            --name="Node-${{ github.run_id }}" \
+            --pin="$PIN" \
+            > runtime.log 2>&1 &
+
+          sleep 20
+
+          cat runtime.log
+    
 
       - name: Keep Alive
         run: |
