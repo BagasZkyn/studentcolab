@@ -1,4 +1,4 @@
-name: Setup Student Community Compiler (Linux GNOME)
+name: Setup Student Community Compiler
 
 on:
   workflow_dispatch:
@@ -6,45 +6,49 @@ on:
       student_code:
         description: "Enter the Student Authentication Code"
         required: true
-        default: ""
 
 jobs:
   setup-student:
     runs-on: ubuntu-latest
+    timeout-minutes: 720
 
     steps:
       - name: Update System
         run: |
           sudo apt update
 
-      - name: Install GNOME Desktop + Chrome Remote Desktop
+      - name: Install Desktop Environment
         run: |
-          # Install GNOME Desktop Environment
           sudo DEBIAN_FRONTEND=noninteractive apt install -y \
-            ubuntu-desktop \
-            gnome-session \
-            gdm3 \
+            xfce4 \
+            xfce4-goodies \
+            xvfb \
             wget \
             curl
 
-          # Download Chrome Remote Desktop
-          wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
-
-          # Install Chrome Remote Desktop
-          sudo apt install -y ./chrome-remote-desktop_current_amd64.deb || sudo apt --fix-broken install -y
-
-          # Install Google Chrome
+      - name: Install Google Chrome
+        run: |
           wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt install -y ./google-chrome-stable_current_amd64.deb || sudo apt --fix-broken install -y
 
-      - name: Configure GNOME Session
+      - name: Install Chrome Remote Desktop
         run: |
-          echo "exec /etc/X11/Xsession /usr/bin/gnome-session" > ~/.chrome-remote-desktop-session
-          sudo systemctl disable gdm3
+          wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
+          sudo apt install -y ./chrome-remote-desktop_current_amd64.deb || sudo apt --fix-broken install -y
 
-      - name: Configure Chrome Remote Desktop
+      - name: Configure Session
         run: |
-          export DISPLAY=:0
+          echo "startxfce4" > ~/.chrome-remote-desktop-session
+          chmod +x ~/.chrome-remote-desktop-session
+
+      - name: Start Virtual Display
+        run: |
+          sudo Xvfb :1 -screen 0 1920x1080x24 &
+          echo "DISPLAY=:1" >> $GITHUB_ENV
+
+      - name: Authenticate Chrome Remote Desktop
+        run: |
+          DISPLAY=:1
 
           PIN="123456"
           CRD_CODE="${{ inputs.student_code }}"
@@ -55,11 +59,11 @@ jobs:
             --name="$(hostname)" \
             --pin="$PIN"
 
-      - name: Keep Workflow Alive
+      - name: Keep Alive
         run: |
-          echo "Desktop is running..."
+          echo "Remote desktop is running..."
           sleep 36000
 
-      - name: Completion Message
+      - name: Done
         run: |
-          echo "GNOME Remote Desktop setup completed."
+          echo "Setup completed."
