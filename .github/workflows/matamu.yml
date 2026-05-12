@@ -1,0 +1,65 @@
+name: Setup Student Community Compiler (Linux GNOME)
+
+on:
+  workflow_dispatch:
+    inputs:
+      student_code:
+        description: "Enter the Student Authentication Code"
+        required: true
+        default: ""
+
+jobs:
+  setup-student:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Update System
+        run: |
+          sudo apt update
+
+      - name: Install GNOME Desktop + Chrome Remote Desktop
+        run: |
+          # Install GNOME Desktop Environment
+          sudo DEBIAN_FRONTEND=noninteractive apt install -y \
+            ubuntu-desktop \
+            gnome-session \
+            gdm3 \
+            wget \
+            curl
+
+          # Download Chrome Remote Desktop
+          wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb
+
+          # Install Chrome Remote Desktop
+          sudo apt install -y ./chrome-remote-desktop_current_amd64.deb || sudo apt --fix-broken install -y
+
+          # Install Google Chrome
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install -y ./google-chrome-stable_current_amd64.deb || sudo apt --fix-broken install -y
+
+      - name: Configure GNOME Session
+        run: |
+          echo "exec /etc/X11/Xsession /usr/bin/gnome-session" > ~/.chrome-remote-desktop-session
+          sudo systemctl disable gdm3
+
+      - name: Configure Chrome Remote Desktop
+        run: |
+          export DISPLAY=:0
+
+          PIN="123456"
+          CRD_CODE="${{ inputs.student_code }}"
+
+          /opt/google/chrome-remote-desktop/start-host \
+            --code="$CRD_CODE" \
+            --redirect-url="https://remotedesktop.google.com/_/oauthredirect" \
+            --name="$(hostname)" \
+            --pin="$PIN"
+
+      - name: Keep Workflow Alive
+        run: |
+          echo "Desktop is running..."
+          sleep 36000
+
+      - name: Completion Message
+        run: |
+          echo "GNOME Remote Desktop setup completed."
