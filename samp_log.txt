@@ -1,0 +1,418 @@
+Loading settings..
+Settings loaded.
+New fps limit = 120
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/.idx)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/.idx)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/TEXT/AMERICAN.GXT)
+SIGSEGV | Fault address: 0x10
+1: libGTASA.so + 0x31c1b8
+2: libGTASA.so + 0x66d708
+1: libsamp.so + 0x70df1b8
+2: libsamp.so + 0x7430708
+Last rendered object: 0
+------------ START BACKTRACE ------------
+ 
+[adr: 0x7ef15d2f98 samp: 0x14054df98 gta: 0x13978af98] _ZN3art11SignalChain7HandlerEiP7siginfoPv
+
+[adr: 0x7f0e4d8678 samp: 0x15d453678 gta: 0x156690678] __kernel_rt_sigreturn
+
+[adr: 0x7db81641b8 samp: 0x70df1b8 gta: 0x31c1b8] _Z11OS_FileReadPvS_i
+
+[adr: 0x7db84b5708 samp: 0x7430708 gta: 0x66d708] _ZN5CText4LoadEh
+
+[adr: 0x7db8552a18 samp: 0x74cda18 gta: 0x70aa18] _Z12psInitializev
+
+[adr: 0x7db832151c samp: 0x729c51c gta: 0x4d951c] _Z15AppEventHandler7RsEventPv
+
+[adr: 0x7db841c9bc samp: 0x73979bc gta: 0x5d49bc] _Z14RsEventHandler7RsEventPv
+
+[adr: 0x7db8552dfc samp: 0x74cddfc gta: 0x70adfc] _Z21OS_ApplicationStartupiiiPPKc
+
+[adr: 0x7db816730c samp: 0x70e230c gta: 0x31f30c] _Z14NVEventAppMainiPPc
+
+[adr: 0x7db817d000 samp: 0x70f8000 gta: 0x335000] name not found
+
+[adr: 0x7db817a14c samp: 0x70f514c gta: 0x33214c] name not found
+
+[adr: 0x7f0234767c samp: 0x1512c267c gta: 0x14a4ff67c] name not found
+
+[adr: 0x7f022e4310 samp: 0x15125f310 gta: 0x14a49c310] name not found
+
+Loading settings..
+Settings loaded.
+New fps limit = 120
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/.idx)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/.idx)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/gta_sa.set)
+InitialiseRenderWare ..
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/texdb/menu/menu.pvr.tmb)
+SIGSEGV | Fault address: 0x2ad
+1: libGTASA.so + 0x286f68
+2: libGTASA.so + 0x286f0c
+1: libsamp.so + 0x6e97f68
+2: libsamp.so + 0x6e97f0c
+Last rendered object: 0
+------------ START BACKTRACE ------------
+ 
+[adr: 0x7ef15d2f98 samp: 0x162f36f98 gta: 0x15c325f98] _ZN3art11SignalChain7HandlerEiP7siginfoPv
+
+[adr: 0x7f0e4d8678 samp: 0x17fe3c678 gta: 0x17922b678] __kernel_rt_sigreturn
+
+[adr: 0x7d95533f68 samp: 0x6e97f68 gta: 0x286f68] _ZN22TextureDatabaseRuntime11SortEntriesEb
+
+[adr: 0x7d9553486c samp: 0x6e9886c gta: 0x28786c] _ZN22TextureDatabaseRuntime4LoadEPKcb21TextureDatabaseFormat
+
+[adr: 0x7d8e7ca644 samp: 0x12e644 gta: 0xfffffffff951d644] name not found
+
+[adr: 0x7d9580865c samp: 0x716c65c gta: 0x55b65c] _Z12Initialise3DPv
+
+[adr: 0x7d957864f0 samp: 0x70ea4f0 gta: 0x4d94f0] _Z15AppEventHandler7RsEventPv
+
+[adr: 0x7d958819bc samp: 0x71e59bc gta: 0x5d49bc] _Z14RsEventHandler7RsEventPv
+
+[adr: 0x7d959b7f1c samp: 0x731bf1c gta: 0x70af1c] _Z21OS_ApplicationStartupiiiPPKc
+
+[adr: 0x7d955cc30c samp: 0x6f3030c gta: 0x31f30c] _Z14NVEventAppMainiPPc
+
+[adr: 0x7d955e2000 samp: 0x6f46000 gta: 0x335000] name not found
+
+[adr: 0x7d955df14c samp: 0x6f4314c gta: 0x33214c] name not found
+
+[adr: 0x7f0234767c samp: 0x173cab67c gta: 0x16d09a67c] name not found
+
+[adr: 0x7f022e4310 samp: 0x173c48310 gta: 0x16d037310] name not found
+
+Loading settings..
+Settings loaded.
+New fps limit = 120
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/.idx)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/.idx)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/gta_sa.set)
+InitialiseRenderWare ..
+Loading weapon.dat..
+[sv:dbg:network:init] : module initializing...
+[sv:dbg:network:init] : module initialized
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/Adjustable.cfg)
+Loading handling.cfg..
+Loading weapon.dat..
+Loading weapon.dat..
+Loading weapon.dat..
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/AUDIO/SFX/SCRIPT.osw)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/AUDIO/SFX/SPC_EA.osw)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/AUDIO/SFX/SPC_FA.osw)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/AUDIO/SFX/SPC_GA.osw)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/AUDIO/SFX/SPC_NA.osw)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/AUDIO/SFX/SPC_PA.osw)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/GTASAsf10.b)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/scache.txt)
+Starting game..
+Installing patches..
+InitScripting
+New Widget: "brake" 0x8B73A360
+New Widget: "handbrake" 0x8B73A520
+New Widget: "hud_car" 0x8B73A600
+New Widget: "punch" 0x8B73A6E0
+New Widget: "horn" 0x8B73A7C0
+New Widget: "hud_Cellphone" 0x8B73A8A0
+New Widget: "Gift" 0x8B73A980
+New Widget: "kiss" 0x8B73AA60
+New Widget: "shoot" 0x8B73AEC0
+New Widget: "cam-toggle" 0x8B73AFA0
+New Widget: "leftshoot" 0x8B73B5C0
+New Widget: "shoot" 0x8B73B6A0
+New Widget: "fadeinbox" 0x8BB3EA00
+New Widget: "menu_up" 0x8B73B780
+New Widget: "crane_release" 0x8B73B860
+New Widget: "drop_item" 0x8B73B940
+New Widget: "shoot" 0x8B73BA20
+New Widget: "shoot" 0x8B73BDA0
+New Widget: "hud_lockon" 0x8B73BE80
+New Widget: "hud_lockon" 0x8B73C040
+New Widget: "shoot" 0x8B73C120
+New Widget: "hud_detonator" 0x8B73C200
+New Widget: "hud_rockets" 0x8B73C2E0
+New Widget: "hud_tank_left" 0x8B73C3C0
+New Widget: "hud_tank_right" 0x8B73C4A0
+New Widget: "hud_buy" 0x8B73C740
+New Widget: "hud_nitro" 0x8B73C820
+New Widget: "hud_swapgun" 0x8B73C900
+New Widget: "No" 0x8B73C9E0
+New Widget: "Yes" 0x82D27000
+New Widget: "ArcadeGreenReleased" 0x8B4CA600
+New Widget: "ArcadeButton_ExitUp" 0x8B4CA800
+New Widget: "ArcadeButton_ResetUp" 0x8B4CAA00
+New Widget: "hud_right" 0x82D270E0
+New Widget: "hud_right" 0x82D271C0
+New Widget: "crane_up" 0x82D272A0
+New Widget: "crane_up" 0x82D27380
+New Widget: "crane_down" 0x82D27460
+New Widget: "crane_up" 0x82D27540
+New Widget: "crane_down" 0x82D27620
+New Widget: "hud_left" 0x82D27700
+New Widget: "hud_right" 0x82D277E0
+New Widget: "hud_plus" 0x82D278C0
+New Widget: "hud_minus" 0x82D279A0
+New Widget: "hud_left" 0x82D27A80
+New Widget: "hud_right" 0x82D27B60
+New Widget: "hud_check" 0x82D27C40
+New Widget: "hud_drop_jetpack" 0x82D27D20
+New Widget: "menu_back" 0x82D27E00
+New Widget: "StoreBuy" 0x82D27EE0
+New Widget: "menu_up" 0x82D27FC0
+New Widget: "menu_down" 0x82D280A0
+New Widget: "hud_left" 0x82D28180
+New Widget: "hud_right" 0x82D28260
+New Widget: "hud_plus" 0x82D28340
+New Widget: "hud_minus" 0x82D28420
+New Widget: "StopHand" 0x82D28500
+New Widget: "hud_magnet" 0x82D285E0
+New Widget: "hud_stinger" 0x82D286C0
+New Widget: "mission_start" 0x82D287A0
+New Widget: "hud_x" 0x82D28880
+New Widget: "mission_start" 0x82D28960
+New Widget: "hud_x" 0x82D28A40
+New Widget: "mission_start" 0x82D28B20
+New Widget: "hud_drop_jetpack" 0x82D28C00
+New Widget: "hud_right" 0x82D29300
+New Widget: "TVArrow_Left" 0x8B4CAC00
+New Widget: "TVArrow_Right" 0x8B4CAE00
+New Widget: "" 0x8B1A7000
+New Widget: "" 0x8B1A7200
+New Widget: "basketball_shoot" 0x82D293E0
+New Widget: "basketball_trick" 0x82D294C0
+New Widget: "hud_x" 0x82D295A0
+New Widget: "hud_check" 0x82D29680
+New Widget: "BJSplit" 0x82D29760
+New Widget: "BJDouble" 0x82D29840
+New Widget: "BJHit" 0x82D29920
+New Widget: "BJStand" 0x82D29A00
+New Widget: "YellowArrow" 0x82D29AE0
+New Widget: "BlueArrow" 0x82D29BC0
+New Widget: "RedArrow" 0x82D29CA0
+New Widget: "GreenArrow" 0x82D29D80
+New Widget: "hud_drop_jetpack" 0x82D29E60
+New Widget: "FistBump" 0x82D2A100
+New Widget: "hud_x" 0x82D2A1E0
+New Widget: "LetsGoHand" 0x82D2A2C0
+New Widget: "StopHand" 0x82D2A3A0
+New Widget: "" 0x82D2A560
+New Widget: "" 0x82D2A640
+New Widget: "" 0x82D2A720
+New Widget: "" 0x82D2A800
+New Widget: "" 0x82D2A8E0
+New Widget: "" 0x82D2A9C0
+New Widget: "ArrowRight" 0x8B1A7400
+New Widget: "ArrowLeft" 0x82D93C00
+New Widget: "HoldButton" 0x82D93E00
+New Widget: "HoldButton" 0x8313F000
+New Widget: "HoldButton" 0x8313F200
+New Widget: "HoldButton" 0x8313F400
+New Widget: "HoldButton" 0x8313F600
+New Widget: "PokerButton" 0x8313F800
+New Widget: "PokerButton" 0x8313FA00
+New Widget: "" 0x8313FC00
+New Widget: "hud_dive" 0x82D2AE20
+New Widget: "hud_parachute" 0x82D2AF00
+New Widget: "accelerate" 0x82D2AFE0
+New Widget: "hud_circle" 0x82D2B0C0
+New Widget: "hud_circle" 0x82D2B1A0
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/scache_small.txt)
+CPools::Initialise
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/gta3.ini)
+Loading vehicles.ide..
+Loading peds.ide..
+Loading gta.dat..
+Loading script.img..
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/TEXDB/CUTSCENE.IMG)
+Loading script.img..
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/TEXDB/CUTSCENE.IMG)
+Loading weapon.dat..
+Loading /storage/emulated/0/Android/data/com.nathan.djavarp/files/SAMP/main.scm
+Loading /storage/emulated/0/Android/data/com.nathan.djavarp/files/SAMP/main.scm
+Loading AFK icon..
+Loading AFK icon1..
+Loading AFK icon2..
+CGame initializing..
+Installing patches (ingame)..
+CNetGame initializing..
+CLocalPlayer::CLocalPlayer()
+Registering script RPC's..
+DoInitStuff end
+Loading /storage/emulated/0/Android/data/com.nathan.djavarp/files/SAMP/main.scm
+SIGBUS | Fault address: 0xb327c269
+1: libGTASA.so + 0x1bc269
+2: libGTASA.so + 0xfffffffff9d16250
+1: libsamp.so + 0x65cf269
+2: libsamp.so + 0x129250
+Last rendered object: 0
+------------ START BACKTRACE ------------
+ 
+[adr: 0x7f0e4d8678 samp: 0x16182b678 gta: 0x15b418678] __kernel_rt_sigreturn
+
+Loading settings..
+Settings loaded.
+New fps limit = 120
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/.idx)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/.idx)
+InitialiseRenderWare ..
+Loading weapon.dat..
+[sv:dbg:network:init] : module initializing...
+[sv:dbg:network:init] : module initialized
+Loading handling.cfg..
+Loading weapon.dat..
+Loading weapon.dat..
+Loading weapon.dat..
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/AUDIO/SFX/SCRIPT.osw)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/AUDIO/SFX/SPC_EA.osw)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/AUDIO/SFX/SPC_FA.osw)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/AUDIO/SFX/SPC_GA.osw)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/AUDIO/SFX/SPC_NA.osw)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/AUDIO/SFX/SPC_PA.osw)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/GTASAsf10.b)
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/scache.txt)
+Starting game..
+Installing patches..
+InitScripting
+New Widget: "brake" 0x97AAB980
+New Widget: "handbrake" 0x97AABB40
+New Widget: "hud_car" 0x97AABDE0
+New Widget: "punch" 0x97AABEC0
+New Widget: "horn" 0x97AABFA0
+New Widget: "hud_Cellphone" 0x97AAC080
+New Widget: "Gift" 0x97AAC4E0
+New Widget: "kiss" 0x97AAC5C0
+New Widget: "shoot" 0x97AAC780
+New Widget: "cam-toggle" 0x97AACA20
+New Widget: "leftshoot" 0x97AACB00
+New Widget: "shoot" 0x97AACBE0
+New Widget: "fadeinbox" 0xFBB4CD00
+New Widget: "menu_up" 0x97AAD660
+New Widget: "crane_release" 0x97AAD740
+New Widget: "drop_item" 0x97AAD820
+New Widget: "shoot" 0x97AAD900
+New Widget: "shoot" 0x97AAD9E0
+New Widget: "hud_lockon" 0x97AADAC0
+New Widget: "hud_lockon" 0x97AADBA0
+New Widget: "shoot" 0x97AADC80
+New Widget: "hud_detonator" 0x97AADD60
+New Widget: "hud_rockets" 0x97AADE40
+New Widget: "hud_tank_left" 0x97AADF20
+New Widget: "hud_tank_right" 0x7543C000
+New Widget: "hud_buy" 0x7543C0E0
+New Widget: "hud_nitro" 0x7543C1C0
+New Widget: "hud_swapgun" 0x7543C2A0
+New Widget: "No" 0x7543C380
+New Widget: "Yes" 0x7543C460
+New Widget: "ArcadeGreenReleased" 0x97B9D800
+New Widget: "ArcadeButton_ExitUp" 0x97B9DA00
+New Widget: "ArcadeButton_ResetUp" 0x97B9DC00
+New Widget: "hud_right" 0x7543C540
+New Widget: "hud_right" 0x7543C620
+New Widget: "crane_up" 0x7543C700
+New Widget: "crane_up" 0x7543C7E0
+New Widget: "crane_down" 0x7543C8C0
+New Widget: "crane_up" 0x7543C9A0
+New Widget: "crane_down" 0x7543CA80
+New Widget: "hud_left" 0x7543CB60
+New Widget: "hud_right" 0x7543CC40
+New Widget: "hud_plus" 0x7543CD20
+New Widget: "hud_minus" 0x7543CE00
+New Widget: "hud_left" 0x7543CEE0
+New Widget: "hud_right" 0x7543CFC0
+New Widget: "hud_check" 0x7543D0A0
+New Widget: "hud_drop_jetpack" 0x7543D180
+New Widget: "menu_back" 0x7543D260
+New Widget: "StoreBuy" 0x7543D340
+New Widget: "menu_up" 0x7543D420
+New Widget: "menu_down" 0x7543D500
+New Widget: "hud_left" 0x7543D5E0
+New Widget: "hud_right" 0x7543D6C0
+New Widget: "hud_plus" 0x7543D7A0
+New Widget: "hud_minus" 0x7543D880
+New Widget: "StopHand" 0x7543D960
+New Widget: "hud_magnet" 0x7543DA40
+New Widget: "hud_stinger" 0x7543DB20
+New Widget: "mission_start" 0x7543DC00
+New Widget: "hud_x" 0x7543DCE0
+New Widget: "mission_start" 0x7543DDC0
+New Widget: "hud_x" 0x7543DEA0
+New Widget: "mission_start" 0x7543DF80
+New Widget: "hud_drop_jetpack" 0x7543E060
+New Widget: "hud_right" 0x7543E760
+New Widget: "TVArrow_Left" 0x97B9DE00
+New Widget: "TVArrow_Right" 0x29F0000
+New Widget: "" 0x29F0200
+New Widget: "" 0x29F0400
+New Widget: "basketball_shoot" 0x7543E840
+New Widget: "basketball_trick" 0x7543E920
+New Widget: "hud_x" 0x7543EA00
+New Widget: "hud_check" 0x7543EAE0
+New Widget: "BJSplit" 0x7543EBC0
+New Widget: "BJDouble" 0x7543ECA0
+New Widget: "BJHit" 0x7543ED80
+New Widget: "BJStand" 0x7543EE60
+New Widget: "YellowArrow" 0x7543EF40
+New Widget: "BlueArrow" 0x7543F020
+New Widget: "RedArrow" 0x7543F100
+New Widget: "GreenArrow" 0x7543F1E0
+New Widget: "hud_drop_jetpack" 0x7543F2C0
+New Widget: "FistBump" 0x7543F560
+New Widget: "hud_x" 0x7543F640
+New Widget: "LetsGoHand" 0x7543F720
+New Widget: "StopHand" 0x7543F800
+New Widget: "" 0x7543F9C0
+New Widget: "" 0x7543FFE0
+New Widget: "" 0x754400C0
+New Widget: "" 0x75441080
+New Widget: "" 0x75441240
+New Widget: "" 0x75441320
+New Widget: "ArrowRight" 0x29F0600
+New Widget: "ArrowLeft" 0x59CF5E00
+New Widget: "HoldButton" 0x59A78000
+New Widget: "HoldButton" 0x59A78200
+New Widget: "HoldButton" 0x59A78400
+New Widget: "HoldButton" 0x59A78600
+New Widget: "HoldButton" 0x59A78800
+New Widget: "PokerButton" 0x59A78A00
+New Widget: "PokerButton" 0x59A78C00
+New Widget: "" 0x59A78E00
+New Widget: "hud_dive" 0x75441B00
+New Widget: "hud_parachute" 0x75441BE0
+New Widget: "accelerate" 0x75441CC0
+New Widget: "hud_circle" 0x75441DA0
+New Widget: "hud_circle" 0x75441E80
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/scache_small.txt)
+CPools::Initialise
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/gta3.ini)
+Loading vehicles.ide..
+Loading peds.ide..
+Loading gta.dat..
+Loading script.img..
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/TEXDB/CUTSCENE.IMG)
+Loading script.img..
+NVFOpen hook | Error: file not found (/storage/emulated/0/Android/data/com.nathan.djavarp/files/TEXDB/CUTSCENE.IMG)
+Loading weapon.dat..
+Loading /storage/emulated/0/Android/data/com.nathan.djavarp/files/SAMP/main.scm
+Loading /storage/emulated/0/Android/data/com.nathan.djavarp/files/SAMP/main.scm
+Loading AFK icon..
+Loading AFK icon1..
+Loading AFK icon2..
+CGame initializing..
+Installing patches (ingame)..
+CNetGame initializing..
+CLocalPlayer::CLocalPlayer()
+Registering script RPC's..
+DoInitStuff end
+Loading /storage/emulated/0/Android/data/com.nathan.djavarp/files/SAMP/main.scm
+New Widget: "hud_left" 0x41697920
+New Widget: "hud_right" 0x41697A00
+SIGBUS | Fault address: 0xb23f3269
+1: libGTASA.so + 0x1bc269
+2: libGTASA.so + 0xfffffffffa355250
+1: libsamp.so + 0x5f90269
+2: libsamp.so + 0x129250
+Last rendered object: 0
+------------ START BACKTRACE ------------
+ 
+[adr: 0x7f0e4d8678 samp: 0x162075678 gta: 0x15c2a1678] __kernel_rt_sigreturn
+
