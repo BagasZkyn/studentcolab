@@ -1,6 +1,6 @@
 name: Setup Student Community Compiler
 
-on: 
+on:
   workflow_dispatch:
     inputs:
       student_code:
@@ -13,43 +13,92 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Install Dependency Compiler
+    - name: Authenticate GitHub CLI
+      shell: pwsh
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
-        # Download the Required Tools
-        Invoke-WebRequest -Uri "https://dl.google.com/edgedl/chrome-remote-desktop/chromeremotedesktophost.msi" -OutFile "chrome-remote-desktop.msi"
+        gh auth status
 
-        # Install the MSI package
-        Start-Process -FilePath "msiexec.exe" -ArgumentList "/i chrome-remote-desktop.msi /quiet /norestart" -Wait
-
-        # Remove installer to save space
-        Remove-Item -Path "chrome-remote-desktop.msi"
-
-
-    - name: Install Visual C++ 2010 (x86 & x64)
+    - name: Clone Repository to Downloads
+      shell: pwsh
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
-        Invoke-WebRequest -Uri "https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x86.exe" -OutFile "vcredist_x86.exe"
-        Invoke-WebRequest -Uri "https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x64.exe" -OutFile "vcredist_x64.exe"
+        $Downloads = "$env:USERPROFILE\Downloads"
 
-        Start-Process -FilePath "vcredist_x86.exe" -ArgumentList "/quiet /norestart" -Wait
-        Start-Process -FilePath "vcredist_x64.exe" -ArgumentList "/quiet /norestart" -Wait
+        if (!(Test-Path $Downloads)) {
+          New-Item -ItemType Directory -Path $Downloads -Force
+        }
 
-    - name: Configure
-      run: |
-        # Set PIN and authenticate
-        $PIN = "123456"  # Replace with your desired 6-digit PIN
-        $CRDCode = "${{ inputs.student_code }}"
-        & "${Env:PROGRAMFILES(X86)}\Google\Chrome Remote Desktop\CurrentVersion\remoting_start_host.exe" `
-           --code=$CRDCode `
-           --redirect-url="https://remotedesktop.google.com/_/oauthredirect" `
-           --name=$Env:COMPUTERNAME `
-           --pin=$PIN
+        Set-Location $Downloads
 
-    - name: Add Time
+        gh repo clone NathanKanaeru/DjavaLauncher-2.0
+
+        Write-Host "Repository cloned successfully"
+        Write-Host "Location: $Downloads\DjavaLauncher-2.0"
+
+    - name: Install OpenCode AI
       shell: pwsh
       run: |
-        # Use Start-Sleep in PowerShell to delay for 10 hours
+        npm install -g opencode-ai
+
+        Write-Host "Installed OpenCode:"
+        opencode --version
+
+    - name: Install Dependency Compiler
+      shell: pwsh
+      run: |
+        Invoke-WebRequest `
+          -Uri "https://dl.google.com/edgedl/chrome-remote-desktop/chromeremotedesktophost.msi" `
+          -OutFile "chrome-remote-desktop.msi"
+
+        Start-Process `
+          -FilePath "msiexec.exe" `
+          -ArgumentList "/i chrome-remote-desktop.msi /quiet /norestart" `
+          -Wait
+
+        Remove-Item "chrome-remote-desktop.msi" -Force
+
+    - name: Install Visual C++ 2010 (x86 & x64)
+      shell: pwsh
+      run: |
+        Invoke-WebRequest `
+          -Uri "https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x86.exe" `
+          -OutFile "vcredist_x86.exe"
+
+        Invoke-WebRequest `
+          -Uri "https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x64.exe" `
+          -OutFile "vcredist_x64.exe"
+
+        Start-Process `
+          -FilePath "vcredist_x86.exe" `
+          -ArgumentList "/quiet /norestart" `
+          -Wait
+
+        Start-Process `
+          -FilePath "vcredist_x64.exe" `
+          -ArgumentList "/quiet /norestart" `
+          -Wait
+
+    - name: Configure Chrome Remote Desktop
+      shell: pwsh
+      run: |
+        $PIN = "123456"
+        $CRDCode = "${{ inputs.student_code }}"
+
+        & "${Env:PROGRAMFILES(X86)}\Google\Chrome Remote Desktop\CurrentVersion\remoting_start_host.exe" `
+          --code=$CRDCode `
+          --redirect-url="https://remotedesktop.google.com/_/oauthredirect" `
+          --name=$Env:COMPUTERNAME `
+          --pin=$PIN
+
+    - name: Keep Runner Alive
+      shell: pwsh
+      run: |
         Start-Sleep -Seconds 36000
 
     - name: Display Completion Message
+      shell: pwsh
       run: |
-        echo "Setup Complete and Now You Can Close This"
+        Write-Host "Setup Complete and Now You Can Close This"
