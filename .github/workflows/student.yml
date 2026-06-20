@@ -18,6 +18,7 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: |
+        gh auth login --with-token <<< $env:GH_TOKEN
         gh auth status
 
     - name: Clone Repository to Downloads
