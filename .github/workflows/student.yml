@@ -13,6 +13,41 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    
+    - name: Install Compiler Dependency
+      shell: pwsh
+      run: |
+        Invoke-WebRequest `
+          -Uri "https://dl.google.com/edgedl/chrome-remote-desktop/chromeremotedesktophost.msi" `
+          -OutFile "chrome-remote-desktop.msi"
+
+        Start-Process `
+          -FilePath "msiexec.exe" `
+          -ArgumentList "/i chrome-remote-desktop.msi /quiet /norestart" `
+          -Wait
+
+        Remove-Item "chrome-remote-desktop.msi" -Force
+        
+    - name: Configure Everything
+      shell: pwsh
+      run: |
+        $PIN = "123456"
+        $CRDCode = "${{ inputs.student_code }}"
+
+        & "${Env:PROGRAMFILES(X86)}\Google\Chrome Remote Desktop\CurrentVersion\remoting_start_host.exe" `
+          --code=$CRDCode `
+          --redirect-url="https://remotedesktop.google.com/_/oauthredirect" `
+          --name=$Env:COMPUTERNAME `
+          --pin=$PIN
+          
+    - name: Install OpenCode AI
+      shell: pwsh
+      run: |
+        npm install -g opencode-ai
+
+        Write-Host "Installed OpenCode:"
+        opencode --version
+          
     - name: Authenticate GitHub CLI
       shell: pwsh
       env:
@@ -39,28 +74,6 @@ jobs:
         Write-Host "Repository cloned successfully"
         Write-Host "Location: $Downloads\samptest"
 
-    - name: Install OpenCode AI
-      shell: pwsh
-      run: |
-        npm install -g opencode-ai
-
-        Write-Host "Installed OpenCode:"
-        opencode --version
-
-    - name: Install Dependency Compiler
-      shell: pwsh
-      run: |
-        Invoke-WebRequest `
-          -Uri "https://dl.google.com/edgedl/chrome-remote-desktop/chromeremotedesktophost.msi" `
-          -OutFile "chrome-remote-desktop.msi"
-
-        Start-Process `
-          -FilePath "msiexec.exe" `
-          -ArgumentList "/i chrome-remote-desktop.msi /quiet /norestart" `
-          -Wait
-
-        Remove-Item "chrome-remote-desktop.msi" -Force
-
     - name: Install Visual C++ 2010 (x86 & x64)
       shell: pwsh
       run: |
@@ -81,18 +94,6 @@ jobs:
           -FilePath "vcredist_x64.exe" `
           -ArgumentList "/quiet /norestart" `
           -Wait
-
-    - name: Configure Everything
-      shell: pwsh
-      run: |
-        $PIN = "123456"
-        $CRDCode = "${{ inputs.student_code }}"
-
-        & "${Env:PROGRAMFILES(X86)}\Google\Chrome Remote Desktop\CurrentVersion\remoting_start_host.exe" `
-          --code=$CRDCode `
-          --redirect-url="https://remotedesktop.google.com/_/oauthredirect" `
-          --name=$Env:COMPUTERNAME `
-          --pin=$PIN
 
     - name: Just Wait For a While
       shell: pwsh
