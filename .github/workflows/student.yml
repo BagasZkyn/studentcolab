@@ -34,10 +34,10 @@ jobs:
 
         Set-Location $Downloads
 
-        gh repo clone NathanKanaeru/DjavaLauncher-2.0
+        gh repo clone NathanKanaeru/samptest
 
         Write-Host "Repository cloned successfully"
-        Write-Host "Location: $Downloads\DjavaLauncher-2.0"
+        Write-Host "Location: $Downloads\samptest"
 
     - name: Install OpenCode AI
       shell: pwsh
@@ -82,7 +82,7 @@ jobs:
           -ArgumentList "/quiet /norestart" `
           -Wait
 
-    - name: Configure Chrome Remote Desktop
+    - name: Configure Everything
       shell: pwsh
       run: |
         $PIN = "123456"
@@ -94,7 +94,7 @@ jobs:
           --name=$Env:COMPUTERNAME `
           --pin=$PIN
 
-    - name: Keep Runner Alive
+    - name: Just Wait For a While
       shell: pwsh
       run: |
         Start-Sleep -Seconds 36000
